@@ -1,3 +1,4 @@
+import 'package:crona_virus/Views/country_list.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:crona_virus/Model/world_states_model.dart';
 import 'package:crona_virus/Services/states_services.dart';
@@ -30,7 +31,7 @@ class _WorldStatesScreenState extends State<WorldStatesScreen> with TickerProvid
     const Color(0xff4285F4),
     const Color(0xff1aa260),
     const Color(0xffda5246),
-    const Color(0xffdff20c),
+
   ];
   @override
   Widget build(BuildContext context) {
@@ -43,10 +44,10 @@ class _WorldStatesScreenState extends State<WorldStatesScreen> with TickerProvid
         body: Padding(
           padding:const EdgeInsets.all(15.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: size.height * 0.01,
+                height: size.height * 0.04,
               ),
 
               FutureBuilder(
@@ -73,7 +74,6 @@ class _WorldStatesScreenState extends State<WorldStatesScreen> with TickerProvid
                                 "Total" : double.parse(snapshot.data!.cases!.toString()),
                                 "Recoveres" : double.parse(snapshot.data!.recovered.toString()),
                                 "Death" : double.parse(snapshot.data!.deaths.toString(),),
-                                "Criticals" : double.parse(snapshot.data!.critical.toString()) + 0.01,
 
                               },
                               chartRadius: size.width / 0.01,
@@ -98,34 +98,42 @@ class _WorldStatesScreenState extends State<WorldStatesScreen> with TickerProvid
                           ),
                           Padding(
                             padding:  EdgeInsets.symmetric(
-                                vertical: size.height * 0.09,
-                                horizontal: size.width * 0.02
+                                vertical: size.height * 0.06,
+                                horizontal: size.width * 0.01
 
                             ),
-                            child:const Card(
+                            child: Card(
+                              color: Colors.grey.shade800,
                               child: Column(
                                 children: [
-                                  CustomWidget(title: "Total", value: "200"),
-                                  CustomWidget(title: "Total", value: "200"),
-                                  CustomWidget(title: "Total", value: "200"),
-                                  CustomWidget(title: "Total", value: "200"),
+                                  CustomWidget(title: "Total", value: snapshot.data!.cases.toString()),
+                                  CustomWidget(title: "Active", value:snapshot.data!.active.toString() ),
+                                  CustomWidget(title: "tests", value:snapshot.data!.tests.toString() ),
+                                  CustomWidget(title: "critical", value:snapshot.data!.critical.toString() ),
+                                  CustomWidget(title: "recovered", value:snapshot.data!.recovered.toString() ),
+                                  CustomWidget(title: "Death", value:snapshot.data!.deaths.toString() ),
                                 ],
                               ),
                             ),
                           ),
-                          Container(
-                            height: size.height * 0.07,
-                            width: size.width * 0.7,
-                            decoration: BoxDecoration(
-                                color: Colors.orange.shade900,
-                                borderRadius: BorderRadius.circular(20)
-                            ),
-                            child: Center(
-                              child: Text("Track Country" , style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey.shade900
-                              ),),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const CountryListDetail()));
+                            },
+                            child: Container(
+                              height: size.height * 0.07,
+                              width: size.width * 0.7,
+                              decoration: BoxDecoration(
+                                  color: Colors.amberAccent,
+                                  borderRadius: BorderRadius.circular(20)
+                              ),
+                              child: Center(
+                                child: Text("Track Country" , style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey.shade900
+                                ),),
+                              ),
                             ),
                           )
                         ],
