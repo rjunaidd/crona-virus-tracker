@@ -14,8 +14,8 @@ class CustomWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title),
-              Text(value)
+              Text(title , style: TextStyle(fontSize: 20 , color: Colors.white),),
+              Text(value , style: TextStyle(color: Colors.white , fontSize: 16 , fontWeight: FontWeight.normal),)
             ],
           ),
           SizedBox(
