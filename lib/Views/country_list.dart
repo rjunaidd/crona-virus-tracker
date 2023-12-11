@@ -1,5 +1,7 @@
 import 'package:crona_virus/Services/states_services.dart';
+import 'package:crona_virus/Views/detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CountryListDetail extends StatefulWidget {
   const CountryListDetail({super.key});
@@ -28,15 +30,20 @@ class _CountryListDetailState extends State<CountryListDetail> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                onChanged: (value){
+                  setState(() {
+
+                  });
+                },
                 controller: serachController,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: size.width * 0.07
-                  ),
-                  hintText: "Search with country name",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50)
-                  )
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.07
+                    ),
+                    hintText: "Search with country name",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50)
+                    )
                 ),
               ),
             ),
@@ -45,27 +52,84 @@ class _CountryListDetailState extends State<CountryListDetail> {
                     future:statesServices.countriesListApi() ,
                     builder: (context , AsyncSnapshot<List<dynamic>> snapshot){
                       if(!snapshot.hasData){
-                       return Text("Loading");
-                      }else{
                         return ListView.builder(
-                          itemCount: snapshot.data!.length,
+                            itemCount: snapshot.data!.length,
                             itemBuilder: (context, index){
-                              return Column(
-                                children: [
-                                  ListTile(
-                                    leading: Image(
-                                        image: NetworkImage(
-                                          snapshot.data![index]["countryInfo"]["flag"]
-                                        )
-                                    ),
-                                  )
-                                ],
+                              return Shimmer.fromColors(
+
+                                baseColor: Colors.grey.shade600,
+                                highlightColor: Colors.grey.shade50,
+                                child:Column(
+                                  children: [
+                                    ListTile(
+                                      title: Container(height: size.height * 0.01, width: size.width * 0.1, color: Colors.white,),
+                                      leading: Container(
+                                        height: size.height * 0.15,
+                                        width: size.width * 0.15,
+                                        color: Colors.white,
+                                      ),
+                                      subtitle: Container(height: size.height * 0.01, width: size.width * 0.1, color: Colors.white,),
+                                    )
+                                  ],
+                                ) ,
                               );
                             }
                         );
+                      }else{
+                        return ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index){
+                              String name = snapshot.data![index]['country'];
+                              if(serachController.text.isEmpty){
+                                return InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailScreen()));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        title: Text(snapshot.data![index]['country']),
+                                        leading: Image(
+                                          image: NetworkImage(
+                                              snapshot.data![index]["countryInfo"]["flag"]
+                                          ),
+                                          height: size.height * 0.15,
+                                          width: size.width * 0.15,
+                                        ),
+                                        subtitle: Text(snapshot.data![index]['cases'].toString()),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }else if(name.toLowerCase().contains(serachController.text.toLowerCase())){
+                                return InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailScreen()));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        title: Text(snapshot.data![index]['country']),
+                                        leading: Image(
+                                          image: NetworkImage(
+                                              snapshot.data![index]["countryInfo"]["flag"]
+                                          ),
+                                          height: size.height * 0.15,
+                                          width: size.width * 0.15,
+                                        ),
+                                        subtitle: Text(snapshot.data![index]['cases'].toString()),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }else{
+                                return Container();
+                              }
+                            }
+                        );
                       }
-
-                    })
+                    }
+                    )
             ),
           ],
         ),
