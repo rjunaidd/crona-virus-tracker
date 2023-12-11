@@ -83,7 +83,18 @@ class _CountryListDetailState extends State<CountryListDetail> {
                               if(serachController.text.isEmpty){
                                 return InkWell(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailScreen()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  DetailScreen(
+                                      countryName: snapshot.data![index]["country"] ?? "",
+                                      image:  snapshot.data![index]["flag"] ?? "",
+                                      totalcase:  snapshot.data![index]["totalcase"] ?? 0,
+                                      totalRecoverd:  snapshot.data![index]["recoverd"] ?? 0,
+                                      totalDeath:  snapshot.data![index]["death"] ?? 0,
+                                      active:  snapshot.data![index]["active"] ?? 0,
+                                      test:  snapshot.data![index]["test"]?? 0,
+                                      todayRecoverd:  snapshot.data![index]["flag"]?? 0,
+                                      critical:  snapshot.data![index]["critical"] ?? 0,
+
+                                    )));
                                   },
                                   child: Column(
                                     children: [
@@ -104,7 +115,17 @@ class _CountryListDetailState extends State<CountryListDetail> {
                               }else if(name.toLowerCase().contains(serachController.text.toLowerCase())){
                                 return InkWell(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailScreen()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  DetailScreen(
+                                      countryName: snapshot.data![index]["country"] ?? "",
+                                      image:  snapshot.data![index]["flag"] ?? '',
+                                      totalcase:  snapshot.data![index]["totalcase"] ?? 0,
+                                      totalRecoverd:  snapshot.data![index]["recoverd"] ?? 0,
+                                      totalDeath:  snapshot.data![index]["death"] ?? 0,
+                                      active:  snapshot.data![index]["active"] ?? 0,
+                                      test:  snapshot.data![index]["test"] ?? 0,
+                                      todayRecoverd:  snapshot.data![index]["flag"] ?? 0,
+                                      critical:  snapshot.data![index]["critical"] ?? 0,
+                                    )));
                                   },
                                   child: Column(
                                     children: [
@@ -129,7 +150,7 @@ class _CountryListDetailState extends State<CountryListDetail> {
                         );
                       }
                     }
-                    )
+                )
             ),
           ],
         ),
